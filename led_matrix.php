@@ -1,5 +1,6 @@
 <script type="text/javascript" charset="utf-8" src="jquery.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="jquery.color.js"></script>
+<script type="text/javascript" charset="utf-8" src="jquery.jcanvas.js"></script>
 <script type="text/javascript" charset="utf-8">
 	
 	$(document).ready(function(){
@@ -8,19 +9,19 @@
 	// $('.pixel').each();
 
 	fan();
-
+	draw();
 	for (var id=0; id < 3060; id++) {
 		
 		// $("#"+id).delay(1000).animate({backgroundColor:"#F00"});
 		
 	};
 	
-	$('.pixel').each(function(i) {
-	    $(this).delay(i).animate({backgroundColor:"#FFF"});
-	});
-	$('.pixel').each(function(i) {
-	    $(this).delay(i).animate({backgroundColor:"#000"});
-	});
+	// $('.pixel').each(function(i) {
+	//     $(this).delay(i).animate({backgroundColor:"#FFF"});
+	// });
+	// $('.pixel').each(function(i) {
+	//     $(this).delay(i).animate({backgroundColor:"#000"});
+	// });
 
 	// loop through each row of panels 
 	// for each row offset
@@ -41,14 +42,34 @@
 		for (var p=0;p<panelsper;p++) {
 			panel = '<div class="panel">';
 			for (var x=0;x<pixelsper;x++) {	
-				panel += '<div class="pixel" style=""></div>';			
-				$('.fan').append(panel);
+				// panel += '<div class="pixel" style=""></div>';			
+				
 			}
 			panel += '</div>';
+			$('.fan').append(panel);
+			
 		}
+		r=0;
+		$('.fan .panel').each(function() { $(this).css('-webkit-transform','rotate('+(r)+'deg)'); r+=15;  });
+		
+		
+		
+		
 	}
 	
-	// function 
+	// Canvas Test : Smiley Face
+	// function draw(){
+	//   var ctx = document.getElementById('canvas').getContext('2d');
+	//   ctx.beginPath();
+	//   ctx.arc(75,75,50,0,Math.PI*2,true); // Outer circle
+	//   ctx.moveTo(110,75);
+	//   ctx.arc(75,75,35,0,Math.PI,false);   // Mouth (clockwise)
+	//   ctx.moveTo(65,65);
+	//   ctx.arc(60,65,5,0,Math.PI*2,true);  // Left eye
+	//   ctx.moveTo(95,65);
+	//   ctx.arc(90,65,5,0,Math.PI*2,true);  // Right eye
+	//   ctx.stroke();
+	// }
 	
 </script>
 <style type="text/css" media="screen">
@@ -92,12 +113,49 @@
 
 	.matrix div.column.even div.pixel.odd {background:#FAF; float:right;}
 	.matrix div.column.even div.pixel.even {background:#A00; float:left;}
-	
+	.fan {
+		margin-top:100px;
+		width:500px;
+		-webkit-transform-origin:50% 90%; /* Safari and Chrome */
+		-webkit-transform:rotate(-83deg); /* Safari and Chrome */*/}
 	.fan .panel {
-		background:black;
-		height:10px;
-		width:10px;
+		height:16em;
+		width:.2em;
+		position:absolute;
+		left:0;
+
+		width: 0; 
+		height: 0; 
+		border-left: 3em solid #FFF;
+		border-right: 3em solid #FFF;
+		border-top: 20em solid #5F8E99;
+		
+		display:inline-block;
+/*		background:lightBlue;*/
+		-webkit-transform-origin:50% 100%; /* Safari and Chrome */
+/*		transform:rotate(90deg);		
+/*		-moz-transform:rotate(7deg); /* Firefox */
+/*		-webkit-transform:rotate(30deg); /* Safari and Chrome */*/
+/*		-ms-transform:rotate(7deg); /* IE 9 */
+/*		-o-transform:rotate(7deg); /* Opera */
 	}
+	
+	.fan .panel:hover {
+
+		border-top: 20em solid #87AD47;
+	     -webkit-transition: border-top 500ms linear;
+	     -moz-transition: border-top 500ms linear;
+	     -o-transition: border-top 500ms linear;
+	     -ms-transition: border-top 500ms linear;
+	     transition: border-top 500ms linear;
+	}
+	
+	.fan .panel .pixel {
+		margin:5px;
+		background:black;
+		height:10;
+		width:10;}
+	.fan .panel {}	
 </style>
 
 <?php 
@@ -108,7 +166,7 @@ $panelw = 3;
 $panelh = 6;
 
 $matrix = '<div class="matrix">';
-$fan = '<div class="fan">';
+$fan = '<div class="fan"></div>';
 
 // Loop through each column (panelx)
 for ($c=0;$c<$panelx;$c++) {
@@ -156,8 +214,14 @@ for ($c=0;$c<$panelx;$c++) {
 }
 $matrix .= '</div>';
 
-// echo $debug;
-echo $matrix;
-// echo $fan;
 ?>
 
+<body>
+	<header></header>
+	<section id="interface">
+		<?php // echo $debug;
+		// echo $matrix;
+		echo $fan;
+		 ?>
+	<sidebar><canvas id="canvas" width="500" height="500"></canvas></sidebar>
+	</section>
